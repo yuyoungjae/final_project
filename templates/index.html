@@ -72,6 +72,8 @@
                         <button type="button" onclick="send(5)">찌개</button>
                     </form> {% endcomment %}
                     <div style="text-align: center; margin-bottom: 20px">
+                        <a href="/7"><button type="button">전체</button></a>
+                        <a href="/6"><button type="button">추천</button></a>
                         <a href="/1"><button type="button">한식</button></a>
                         <a href="/2"><button type="button">분식</button></a>
                         <a href="/3"><button type="button">돈까스/우동</button></a>
@@ -81,7 +83,7 @@
                 </div>
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" >
                     {% for o in objs %}
-                        {% if o.category_id == category_id or category_id == 6 %}
+                        {% if o.category_id == category_id or category_id == 6 or category_id == 7 %}
                         <div class="col mb-5">
                             <div class="card h-100">
                                 <!-- Product image-->
