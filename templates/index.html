@@ -64,39 +64,48 @@
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5" style="width: 80%; float:left">
                 <div class="menu_category" >
-                        <form style="text-align: center; margin-bottom: 20px">
-                            <button type="button" onclick="send(1)">한식</button>
-                            <button type="button" onclick="send(2)">분식</button>
-                            <button type="button" onclick="send(3)">돈까스/우동</button>
-                            <button type="button" onclick="send(4)">국밥</button>
-                            <button type="button" onclick="send(5)">찌개</button>
-                        </form>
-                     </div>
+                    {% comment %} <form style="text-align: center; margin-bottom: 20px">
+                        <button type="button" onclick="send(1)">한식</button>
+                        <button type="button" onclick="send(2)">분식</button>
+                        <button type="button" onclick="send(3)">돈까스/우동</button>
+                        <button type="button" onclick="send(4)">국밥</button>
+                        <button type="button" onclick="send(5)">찌개</button>
+                    </form> {% endcomment %}
+                    <div style="text-align: center; margin-bottom: 20px">
+                        <a href="/1"><button type="button">한식</button></a>
+                        <a href="/2"><button type="button">분식</button></a>
+                        <a href="/3"><button type="button">돈까스/우동</button></a>
+                        <a href="/4"><button type="button">국밥</button></a>
+                        <a href="/5"><button type="button">찌개</button></a>
+                    </div>
+                </div>
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" >
                     {% for o in objs %}
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{o.name}}</h5>
-                                    <!-- Product price-->
-                                    {{o.price}}원
+                        {% if o.category_id == category_id or category_id == 6 %}
+                        <div class="col mb-5">
+                            <div class="card h-100">
+                                <!-- Product image-->
+                                <img class="card-img-top" src="" alt="..." />
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                        <h5 class="fw-bolder">{{o.name}}</h5>
+                                        <!-- Product price-->
+                                        {{o.price}}원
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    <button class="btn btn-outline-dark mt-auto" onclick="addOrderList({'name':'{{o.name}}', 'price':'{{o.price}}'});">
-                                        선택
-                                    </button>
+                                <!-- Product actions-->
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center">
+                                        <button class="btn btn-outline-dark mt-auto" onclick="addOrderList({'name':'{{o.name}}', 'price':'{{o.price}}'});">
+                                            선택
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
 
