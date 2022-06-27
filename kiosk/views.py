@@ -14,6 +14,7 @@ class MyView(View):
     
     def __init__(self):
         MyView.imgs = dict()
+        MyView.imgs2 = dict()
         
         with connection.cursor() as cursor:
             # 이미지
@@ -22,13 +23,15 @@ class MyView(View):
                 id = menu[0]
                 file_path = f"static/img/food/{id:02d}_{name}.jpg"
 
-                if os.path.isfile(file_path.lstrip("/")) == False:
-                    print(file_path, "없음")
-
-                    img = Image.open(BytesIO(base64.b64decode(menu[4])))
-                    img.save(file_path)
+                # if os.path.isfile(file_path.lstrip("/")) == False:
+                #     print(file_path, "없음")
                     
-                MyView.imgs[id] = "/"+file_path
+                #     img = Image.open(BytesIO(base64.b64decode(menu[4])))
+                #     img.save(file_path)
+                MyView.imgs2[id] = str(menu[4], 'utf-8')
+                # MyView.imgs2[id] = base64.b64decode()
+                
+                # MyView.imgs[id] = "/"+file_path
     
     @request_mapping("/", method="get")
     def index_init(self, request):
@@ -59,7 +62,10 @@ class MyView(View):
         
         
         for idx, obj in enumerate(objs):
-            objs[idx]["file_path"] = MyView.imgs[obj["id"]]
+            # objs[idx]["file_path"] = MyView.imgs[obj["id"]]
+            objs[idx]["img"] = MyView.imgs2[obj["id"]]
         
+        print(objs[0]["img"][:10])
             
         return render(request, 'index.html', context)
+                                                                    
