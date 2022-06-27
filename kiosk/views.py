@@ -40,7 +40,7 @@ class MyView(View):
     
     # path("", views.cocktails),
     @request_mapping("<int:id>/", method="get")
-    def index(self, request, id=6):
+    def index(self, request, id=7):
         context = dict()
 
 
@@ -68,4 +68,37 @@ class MyView(View):
         print(objs[0]["img"][:10])
             
         return render(request, 'index.html', context)
+                                                                    
+    @request_mapping("senior/", method="get")
+    def index_init2(self, request):
+        return self.index2(request)
+    
+    
+    # path("", views.cocktails),
+    @request_mapping("senior/<int:id>/", method="get")
+    def index2(self, request, id=7):
+        context = dict()
+
+
+        context['category_id'] = id if 1 <= id <= 7 else 7
+            
+        if context["category_id"] == 6:
+            with connection.cursor() as cursor:
+            
+                objs = list()
+                
+                for obj in get_top_menu(cursor, top_cnt=5):
+                    recommand_id = obj[0]
+                    objs.append(Menu.objects.filter(id=recommand_id).values("id", "name", "price", "category_id")[0])
+
+        else:
+            objs = Menu.objects.values("id", "name", "price", "category_id")
+            
+        context['objs'] = objs
+        
+        
+        for idx, obj in enumerate(objs):
+            objs[idx]["img"] = MyView.imgs2[obj["id"]]
+        
+        return render(request, 'index2.html', context)
                                                                     

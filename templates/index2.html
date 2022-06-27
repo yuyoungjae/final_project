@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en" style="height: 200%;">
+<html lang="en" style="height: 300%;">
     <head>
         <script>
             var orderList = [];
@@ -27,13 +27,12 @@
                 var totalAmount = 0;
                 for(var i = 0; i < orderList.length; i++){
                     addComp += "<li>";
-                    addComp += orderList[i].name + " ";
-                    addComp += orderList[i].orderCount;
+                    addComp += "<h3>" + orderList[i].name + " " + orderList[i].orderCount +  "</h3>";
                     addComp += "</li>";
                     totalAmount += orderList[i].price * orderList[i].orderCount
                 }
                 addComp += "<div id='order_total_amount'>"
-                addComp += "Total : " + totalAmount;
+                addComp += "<h3>" + "Total : " + totalAmount + "</h3>";
                 addComp += "</div>"
                 orderListComp.innerHTML = addComp;
             }
@@ -75,16 +74,16 @@
                         <button type="button" onclick="send(5)">찌개</button>
                     </form> {% endcomment %}
                     <div style="text-align: center; margin-bottom: 20px">
-                        <a href="/7"><button button class="btn btn-outline-dark" type="button">전체</button></a>
-                        <a href="/6"><button button class="btn btn-outline-dark" type="button">추천</button></a>
-                        <a href="/1"><button button class="btn btn-outline-dark" type="button">한식</button></a>
-                        <a href="/2"><button button class="btn btn-outline-dark" type="button">분식</button></a>
-                        <a href="/3"><button button class="btn btn-outline-dark" type="button">돈까스/우동</button></a>
-                        <a href="/4"><button button class="btn btn-outline-dark" type="button">국밥</button></a>
-                        <a href="/5"><button button class="btn btn-outline-dark" type="button">찌개</button></a>
+                        <a href="/senior/7"><button class="btn btn-outline-dark fs-1" type="button">전체</button></a>
+                        <a href="/senior/6"><button class="btn btn-outline-dark fs-1" type="button">추천</button></a>
+                        <a href="/senior/1"><button class="btn btn-outline-dark fs-1" type="button">한식</button></a>
+                        <a href="/senior/2"><button class="btn btn-outline-dark fs-1" type="button">분식</button></a>
+                        <a href="/senior/3"><button class="btn btn-outline-dark fs-1" type="button">돈까스/우동</button></a>
+                        <a href="/senior/4"><button class="btn btn-outline-dark fs-1" type="button">국밥</button></a>
+                        <a href="/senior/5"><button class="btn btn-outline-dark fs-1" type="button">찌개</button></a>
                     </div>
                 </div>
-                <div class="row gx-4 gx-lg-5 row-cols-4 justify-content-center" >
+                <div class="row gx-4 gx-lg-5 row-cols-2 justify-content-center" >
                     {% for o in objs %}
                         {% if o.category_id == category_id or category_id == 6 or category_id == 7 %}
                         <div class="col mb-5">
@@ -95,15 +94,15 @@
                                 <div class="card-body p-4">
                                     <div class="text-center">
                                         <!-- Product name-->
-                                        <h5 class="fw-bolder">{{o.name}}</h5>
+                                        <h2 class="fw-bolder">{{o.name}}</h2>
                                         <!-- Product price-->
-                                        {{o.price}}원
+                                        <h3>{{o.price}}원</h3>
                                     </div>
                                 </div>
                                 <!-- Product actions-->
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                     <div class="text-center">
-                                        <button class="btn btn-outline-dark mt-auto" onclick="addOrderList({'name':'{{o.name}}', 'price':'{{o.price}}'});">
+                                        <button class="btn btn-outline-dark fs-1" onclick="addOrderList({'name':'{{o.name}}', 'price':'{{o.price}}'});">
                                             선택
                                         </button>
                                     </div>
