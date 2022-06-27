@@ -5,14 +5,30 @@ from django_request_mapping import request_mapping
 
 from kiosk.models import Menu
 
+import os
 from .rdsmysql import *
 
 @request_mapping("")
 class MyView(View):
     orderlist = list()
     
-    # def __init__(self):
-        # orderlist = list()
+    def __init__(self):
+        MyView.imgs = dict()
+        
+        with connection.cursor() as cursor:
+            # 이미지
+            for menu in select_table(cursor, "KIOSK", "menu"):
+                name = menu[1]
+                id = menu[0]
+                file_path = f"static/img/food/{id:02d}_{name}.jpg"
+
+                if os.path.isfile(file_path.lstrip("/")) == False:
+                    print(file_path, "없음")
+
+                    img = Image.open(BytesIO(base64.b64decode(menu[4])))
+                    img.save(file_path)
+                    
+                MyView.imgs[id] = "/"+file_path
     
     @request_mapping("/", method="get")
     def index_init(self, request):
@@ -34,12 +50,16 @@ class MyView(View):
                 
                 for obj in get_top_menu(cursor, top_cnt=5):
                     recommand_id = obj[0]
-                    objs.append(Menu.objects.filter(id=recommand_id).values("name", "price", "category_id")[0])
+                    objs.append(Menu.objects.filter(id=recommand_id).values("id", "name", "price", "category_id")[0])
 
         else:
-            objs = Menu.objects.values("name", "price", "category_id")
+            objs = Menu.objects.values("id", "name", "price", "category_id")
             
         context['objs'] = objs
-        # print(objs)
+        
+        
+        for idx, obj in enumerate(objs):
+            objs[idx]["file_path"] = MyView.imgs[obj["id"]]
+        
             
         return render(request, 'index.html', context)
